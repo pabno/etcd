@@ -30,7 +30,8 @@
 // First, register new endpoint addresses for a service:
 //
 //	func etcdAdd(c *clientv3.Client, service, addr string) error {
-//		em := endpoints.NewManager(c, service)
+//		em, err := endpoints.NewManager(c, service)
+//    if err { return nil, err }
 //		return em.AddEndpoint(c.Ctx(), service+"/"+addr, endpoints.Endpoint{Addr:addr});
 //	}
 //
@@ -38,21 +39,23 @@
 //
 //	func etcdDial(c *clientv3.Client, service string) (*grpc.ClientConn, error) {
 //		etcdResolver, err := resolver.NewBuilder(c);
-//		if err { return nil, err }
+//		if err { return  err }
 //		return  grpc.Dial("etcd:///" + service, grpc.WithResolvers(etcdResolver))
 //	}
 //
 // Optionally, force delete an endpoint:
 //
 //	func etcdDelete(c *clientv3, service, addr string) error {
-//		em := endpoints.NewManager(c, service)
+//		em, err := endpoints.NewManager(c, service)
+//    if err { return  err }
 //		return em.DeleteEndpoint(c.Ctx(), service+"/"+addr)
 //	}
 //
 // Or register an expiring endpoint with a lease:
 //
 //	func etcdAdd(c *clientv3.Client, lid clientv3.LeaseID, service, addr string) error {
-//		em := endpoints.NewManager(c, service)
+//		em, err := endpoints.NewManager(c, service)
+//    if err { return err }
 //		return em.AddEndpoint(c.Ctx(), service+"/"+addr, endpoints.Endpoint{Addr:addr}, clientv3.WithLease(lid));
 //	}
 //
